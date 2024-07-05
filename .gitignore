@@ -13,6 +13,7 @@ target/
 .idea/
 mvnw
 *.cmd
+.flattened-pom.xml
 
 # Package Files #
 *.jar
