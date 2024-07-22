@@ -22,10 +22,22 @@ public class GlobalExceptionHandler {
      *
      */
     @ExceptionHandler({BizException.class})
+    @ResponseBody
     public Response<Object> handleBizException(HttpServletRequest request, BizException e) {
         log.warn("{} request fail,errorCode {},errorMessage:{}", request.getRequestURI(), e.getErrorCode(),e.getErrorMessage());
-        return Response.fail(e.getErrorCode(),e.getErrorMessage());
+        return Response.fail(e);
     }
+
+//    /**
+//     * 捕获自定义业务异常
+//     * @return
+//     */
+//    @ExceptionHandler({ BizException.class })
+//    @ResponseBody
+//    public Response<Object> handleBizException(HttpServletRequest request, BizException e) {
+//        log.warn("{} request fail, errorCode: {}, errorMessage: {}", request.getRequestURI(), e.getErrorCode(), e.getErrorMessage());
+//        return Response.fail(e);
+//    }
 
     /**
      * 捕获参数校验异常
@@ -46,7 +58,7 @@ public class GlobalExceptionHandler {
         // 获取校验不通过的字段，并组合错误信息，格式为： email 邮箱格式不正确, 当前值: '123124qq.com';
         Optional.ofNullable(bindingResult.getFieldErrors()).ifPresent(errors ->{
             errors.forEach(error ->{
-                stringBuilder.append(error.getField()).append(" ").append(error.getDefaultMessage()).append(",当前值‘").append(error.getRejectedValue()).append("';");
+                stringBuilder.append(error.getField()).append(" ").append(error.getDefaultMessage()).append(",当前值:").append(error.getRejectedValue()).append("");
             });
         });
 
